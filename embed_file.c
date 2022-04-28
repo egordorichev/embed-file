@@ -13,18 +13,18 @@ FILE* open_or_exit(const char* file_name, const char* mode) {
 }
 
 int main(int argc, char** argv) {
-	if (argc < 3) {
-		fprintf(stdout, "USAGE: %s {sym} {rsrc}\n  Creates {sym}.c from the contents of {rsrc}\n", argv[0]);
+	if (argc < 4) {
+		fprintf(stdout, "USAGE: %s {path} {sym} {rsrc}\n  Creates {sym}.c from the contents of {path}/{rsrc}\n", argv[0]);
 		return EXIT_FAILURE;
 	}
 
-	const char* sym = argv[1];
-	FILE* in = open_or_exit(argv[2], "r");
+	const char* sym = argv[2];
+	FILE* in = open_or_exit(argv[3], "r");
 
-	printf("Embedding file %s...\n", argv[2]);
+	printf("Embedding file %s...\n", argv[3]);
 
 	char lib_file[256];
-	snprintf(lib_file, sizeof(lib_file), "src/lit/std/compiled/%s.c", sym);
+	snprintf(lib_file, sizeof(lib_file), "%s/%s.c", argv[1], sym);
 
 	FILE* out = open_or_exit(lib_file, "w");
 
